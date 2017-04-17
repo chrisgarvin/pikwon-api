@@ -1,28 +1,17 @@
 import React, { PropTypes } from 'react'
 import Login from './Login'
+import LoggedInMenu from './LoggedInMenu'
 import Signup from './Signup'
 
 export default class NavBar extends React.Component {
-
-  logOut = (e) => {
-    e.preventDefault()
-
-    $.ajax({
-      url: "/logout",
-      type: 'DELETE',
-      success: function(response, status) {
-        console.log("logged out")
-      },
-      error: function(response, status, err) {
-        console.log("An error occured")
-      }
-    })
-  }
 
   render() {
     return (
       <nav className='navbar navbar-default'>
         <div className='container-fluid'>
+          <a className="navbar-brand" href='/'>
+            pikwon
+          </a>
           <div className='nav navbar-header pull-right'>
             {!this.props.currentUser &&
               <span>
@@ -31,7 +20,7 @@ export default class NavBar extends React.Component {
               </span>}
             {this.props.currentUser &&
               <span>
-                <a className='navbar-text navbar-link' onClick={this.logOut}>Log Out</a>
+                <LoggedInMenu currentUser={this.props.currentUser} />
               </span>}
           </div>
         </div>

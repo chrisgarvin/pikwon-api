@@ -10,7 +10,7 @@ class ApplicationController < ActionController::Base
       User.find(session[:user_id]) if
       session[:user_id]
     rescue ActiveRecord::RecordNotFound
-    end
+  end
 
   def require_user
     redirect_to signup_path unless current_user

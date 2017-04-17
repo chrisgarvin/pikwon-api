@@ -10,7 +10,7 @@
 
   <body>
     <div>
-      <%= react_component('Main', props: { currentUser: @current_user }, prerender: false) %>
+      <%= react_component('Main', props: { currentUser: current_user }, prerender: false) %>
       <%= yield %>
     </div>
   </body>
