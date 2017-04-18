@@ -20,6 +20,9 @@ export default class LoggedInMenu extends React.Component {
   render() {
     return (
       <ul className="nav navbar-nav navbar-right">
+        <a className="navbar-brand" href='/posts/new'>
+          +
+        </a>
         <li className="dropdown">
           <a href="#" className="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
             {this.props.currentUser.handle} <span className="caret"></span></a>

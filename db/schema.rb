@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170415224516) do
+ActiveRecord::Schema.define(version: 20170418080756) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -21,6 +21,13 @@ ActiveRecord::Schema.define(version: 20170415224516) do
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
     t.index ["post_id"], name: "index_options_on_post_id", using: :btree
+  end
+
+  create_table "options_posts", id: false, force: :cascade do |t|
+    t.integer "option_id", null: false
+    t.integer "post_id",   null: false
+    t.index ["option_id", "post_id"], name: "index_options_posts_on_option_id_and_post_id", using: :btree
+    t.index ["post_id", "option_id"], name: "index_options_posts_on_post_id_and_option_id", using: :btree
   end
 
   create_table "picks", force: :cascade do |t|
