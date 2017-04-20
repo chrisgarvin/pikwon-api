@@ -1,10 +1,4 @@
 class PostsController < ApplicationController
-  def index
-    logged_in? && @posts = Post.all
-  end
-
-  def new
-  end
 
   def get_post
     render json: {
@@ -14,6 +8,7 @@ class PostsController < ApplicationController
     }
   end
 
+# update for api only
   def new_post
     post = Post.create(user_id: params['user_id'])
     post.options << Option.create(option_text: params['option_1_text'], post_id: post.id)
