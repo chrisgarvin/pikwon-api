@@ -25,4 +25,33 @@ class User < ApplicationRecord
 
   before_create { handle.downcase! }
   before_create { email.downcase! }
+
+  def feed
+    following_ids = "SELECT followed_id FROM relationships
+                    WHERE follower_id = :user_id"
+    user_picks = "SELECT post_id FROM picks
+                  WHERE user_id = :user_id"
+
+    Post.where("user_id IN (#{following_ids}) AND id NOT IN (#{user_picks})", user_id: id).order('created_at DESC')
+  end
+
+  def global_feed
+    user_picks = "SELECT post_id FROM picks
+                  WHERE user_id = :user_id"
+
+    Post.where("user_id != :user_id AND id NOT IN (#{user_picks})", user_id: id).order('created_at DESC')
+  end
+
+  def following?(other_user)
+    following.include?(other_user)
+  end
+
+  def follow(other_user)
+    active_relationships.create(followed_id: other_user.id)
+  end
+
+  def unfollow(other_user)
+    active_relationships.find_by(followed_id: other_user.id).destroy
+  end
+
 end

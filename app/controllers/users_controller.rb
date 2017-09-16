@@ -1,5 +1,7 @@
 class UsersController < ApplicationController
-  def get_user
+  skip_before_action :verify_authenticity_token
+
+  def show
     user = User.find(params[:id])
     time = Time.new.strftime('%A')
 
@@ -16,24 +18,20 @@ class UsersController < ApplicationController
     }
   end
 
-  def new
-    @user = User.new
-  end
-
 # update for api only
   def create
-    @user = User.new(user_params)
-    if @user.save
-      session[:user_id] = @user.id
-      render json: {}, status: 200
+    user = User.create(user_params)
+    if user.save
+      render json: { user: user.id }, status: 200
     else
+      render json: { user: nil }, status: 404
     end
   end
 
   private
 
   def user_params
-    params.require(:user).permit(:handle.downcase, :name, :email, :password, :password_confirmation)
+    params.permit(:handle.downcase, :name, :email, :password, :password_confirmation)
   end
 
 end
